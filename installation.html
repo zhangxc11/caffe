@@ -183,16 +183,14 @@ for x in snappy leveldb protobuf gflags glog szip homebrew/science/opencv; do br
 
 <p>For each of these formulas, <code>brew edit FORMULA</code>, and add the ENV definitions as shown:</p>
 
-<pre><code>
-    def install
+<pre><code>    def install
         #ADD THE FOLLOWING:
         ENV.append &quot;CXXFLAGS&quot;, &#39;-stdlib=libstdc++&#39;
         ENV.append &quot;CFLAGS&quot;, &#39;-stdlib=libstdc++&#39;
         ENV.append &quot;LDFLAGS&quot;, &#39;-stdlib=libstdc++ -lstdc++&#39;
         #The following is necessary because libtool liks to strip LDFLAGS:
         ENV.cxx = &quot;/usr/bin/clang -stdlib=libstdc++&quot;
-        ...
-</code></pre>
+        ...</code></pre>
 
 <p>After this, run</p>
 
