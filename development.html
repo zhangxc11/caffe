@@ -40,38 +40,35 @@
       </header>
       <section>
 
-      <h1 id="developing__contributing">Developing &amp; Contributing</h1>
+      <h1 id="developing--contributing">Developing &amp; Contributing</h1>
 
-<p>Caffe is developed with active participation of the community by the <a href="http://bvlc.eecs.berkeley.edu/">Berkeley Vision and Learning Center</a>. We welcome all contributions!</p>
+<p>Caffe is developed with active participation of the community by the <a href="http://bvlc.eecs.berkeley.edu/">Berkeley Vision and Learning Center</a>.
+We welcome all contributions!</p>
 
 <p>The <a href="https://github.com/BVLC/caffe#development">contributing workflow</a> is explained in the README. These guidelines cover development practices in Caffe. This is a work-in-progress.</p>
 
 <p><strong>Development Flow</strong></p>
 
 <ul>
-<li><code>master</code> is golden.</li>
-
-<li><code>dev</code> is for new development: it is the branching point for features and the base of pull requests.
-<ul>
-<li>The history of <code>dev</code> is not rewritten.</li>
-
-<li>Contributions are shepherded from <code>dev</code> to <code>master</code> by BVLC by merge.</li>
-</ul>
-</li>
-
-<li>To err is human. Accidents are fixed by reverts.</li>
-
-<li>Releases are marked with tags on merge from <code>dev</code> to <code>master</code>.</li>
+  <li><code>master</code> is golden.</li>
+  <li><code>dev</code> is for new development: it is the branching point for features and the base of pull requests.
+    <ul>
+      <li>The history of <code>dev</code> is not rewritten.</li>
+      <li>Contributions are shepherded from <code>dev</code> to <code>master</code> by BVLC by merge.</li>
+    </ul>
+  </li>
+  <li>To err is human. Accidents are fixed by reverts.</li>
+  <li>Releases are marked with tags on merge from <code>dev</code> to <code>master</code>.</li>
 </ul>
 
 <p><strong>Issues &amp; Pull Request Protocol</strong></p>
 
 <ol>
-<li>Make issues for <a href="https://github.com/BVLC/caffe/issues?labels=bug&page=1&state=open">bugs</a>, tentative proposals, and <a href="https://github.com/BVLC/caffe/issues?labels=question&page=1&state=open">questions</a>.</li>
-
-<li>Make PRs to signal development: a. Make PRs <em>as soon as development begins</em>. Create a feature branch, make your initial commit, push, and PR to let everyone know you are working on it and let discussion guide development instead of review development after-the-fact. b. When a proposal from the first step earns enough interest to warrant development, make a PR, and reference and close the old issue to direct the conversation to the PR.</li>
-
-<li>When a PR is ready, comment to request a maintainer be assigned to review and merge to <code>dev</code>.</li>
+  <li>Make issues for <a href="https://github.com/BVLC/caffe/issues?labels=bug&amp;page=1&amp;state=open">bugs</a>, tentative proposals, and <a href="https://github.com/BVLC/caffe/issues?labels=question&amp;page=1&amp;state=open">questions</a>.</li>
+  <li>Make PRs to signal development:
+  a. Make PRs <em>as soon as development begins</em>. Create a feature branch, make your initial commit, push, and PR to let everyone know you are working on it and let discussion guide development instead of review development after-the-fact.
+  b. When a proposal from the first step earns enough interest to warrant development, make a PR, and reference and close the old issue to direct the conversation to the PR.</li>
+  <li>When a PR is ready, comment to request a maintainer be assigned to review and merge to <code>dev</code>.</li>
 </ol>
 
 <p>A PR is only ready for review when the code is committed, documented, linted, and tested!</p>
@@ -85,32 +82,34 @@
 <p>The <code>googletest</code> framework we use provides many additional options, which you can access by running the test binaries directly. One of the more useful options is <code>--gtest_filter</code>, which allows you to filter tests by name:</p>
 
 <pre><code># run all tests with CPU in the name
-build/test/test_all.testbin --gtest_filter=&#39;*CPU*&#39;
+build/test/test_all.testbin --gtest_filter='*CPU*'
 
 # run all tests without GPU in the name (note the leading minus sign)
-build/test/test_all.testbin --gtest_filter=-&#39;*GPU*&#39;</code></pre>
+build/test/test_all.testbin --gtest_filter=-'*GPU*'
+</code></pre>
 
 <p>To get a list of all options <code>googletest</code> provides, simply pass the <code>--help</code> flag:</p>
 
-<pre><code>build/test/test_all.testbin --help</code></pre>
+<pre><code>build/test/test_all.testbin --help
+</code></pre>
 
 <p><strong>Style</strong></p>
 
 <ul>
-<li>Follow <a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml">Google C++ style</a> and <a href="http://google-styleguide.googlecode.com/svn/trunk/pyguide.html">Google python style</a> + <a href="http://legacy.python.org/dev/peps/pep-0008/">PEP 8</a>.</li>
-
-<li>Wrap lines at 80 chars.</li>
-
-<li>Remember that “a foolish consistency is the hobgoblin of little minds,” so use your best judgement to write the clearest code for your particular case.</li>
+  <li>Follow <a href="http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml">Google C++ style</a> and <a href="http://google-styleguide.googlecode.com/svn/trunk/pyguide.html">Google python style</a> + <a href="http://legacy.python.org/dev/peps/pep-0008/">PEP 8</a>.</li>
+  <li>Wrap lines at 80 chars.</li>
+  <li>Remember that “a foolish consistency is the hobgoblin of little minds,” so use your best judgement to write the clearest code for your particular case.</li>
 </ul>
 
 <p><strong>Lint</strong>: run <code>make lint</code> to check C++ code.</p>
 
 <p><strong>Copyright</strong>: assign copyright jointly to BVLC and contributors like so:</p>
 
-<pre><code>// Copyright 2014 BVLC and contributors.</code></pre>
+<pre><code>// Copyright 2014 BVLC and contributors.
+</code></pre>
 
 <p>The exact details of contributions are recorded by versioning and cited in our <a href="http://caffe.berkeleyvision.org/#acknowledgements">acknowledgements</a>. This method is impartial and always up-to-date.</p>
+
 
       </section>
       <footer>
