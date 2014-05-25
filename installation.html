@@ -190,16 +190,15 @@ Make sure that homebrew doesn’t install any software dependencies in the backg
 
 <p>For each of these formulas, <code>brew edit FORMULA</code>, and add the ENV definitions as shown:</p>
 
-<p><code>
-    def install
-        # ADD THE FOLLOWING:
-        ENV.append "CXXFLAGS", "-stdlib=libstdc++"
-        ENV.append "CFLAGS", "-stdlib=libstdc++"
-        ENV.append "LDFLAGS", "-stdlib=libstdc++ -lstdc++"
-        # The following is necessary because libtool likes to strip LDFLAGS:
-        ENV["CXX"] = "/usr/bin/clang -stdlib=libstdc++"
-        ...
-</code></p>
+<pre><code>  def install
+      # ADD THE FOLLOWING:
+      ENV.append "CXXFLAGS", "-stdlib=libstdc++"
+      ENV.append "CFLAGS", "-stdlib=libstdc++"
+      ENV.append "LDFLAGS", "-stdlib=libstdc++ -lstdc++"
+      # The following is necessary because libtool likes to strip LDFLAGS:
+      ENV["CXX"] = "/usr/bin/clang -stdlib=libstdc++"
+      ...
+</code></pre>
 
 <p>To edit the formulae in turn, run</p>
 
