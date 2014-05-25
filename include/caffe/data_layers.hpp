@@ -42,14 +42,10 @@ class HDF5OutputLayer : public Layer<Dtype> {
   inline std::string file_name() const { return file_name_; }
 
  protected:
-  virtual Dtype Forward_cpu(const vector<Blob<Dtype>*>& bottom,
+  virtual Dtype Forward(const vector<Blob<Dtype>*>& bottom,
       vector<Blob<Dtype>*>* top);
-  virtual Dtype Forward_gpu(const vector<Blob<Dtype>*>& bottom,
-      vector<Blob<Dtype>*>* top);
-  virtual void Backward_cpu(const vector<Blob<Dtype>*>& top,
-      const vector<bool>& propagate_down, vector<Blob<Dtype>*>* bottom);
-  virtual void Backward_gpu(const vector<Blob<Dtype>*>& top,
-      const vector<bool>& propagate_down, vector<Blob<Dtype>*>* bottom);
+  virtual void Backward(const vector<Blob<Dtype>*>& top,
+      const vector<bool>& propagate_down, vector<Blob<Dtype>*>* bottom) { return; }
   virtual void SaveBlobs();
 
   std::string file_name_;
