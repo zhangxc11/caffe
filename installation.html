@@ -176,7 +176,7 @@ If you’re not using Anaconda, include <code>hdf5</code> in the list above.</p>
 
 <h4 id="specific-instructions-1">10.9-specific Instructions</h4>
 
-<p>In OS X 10.9, clang is the default compiler and uses <code>libc++</code> as the standard library.
+<p>In OS X 10.9, clang++ is the default C++ compiler and uses <code>libc++</code> as the standard library.
 However, NVIDIA CUDA (even version 6.0) currently links only with <code>libstdc++</code>.
 This makes it necessary to change the compilation settings for each of the dependencies.</p>
 
@@ -196,7 +196,7 @@ Make sure that homebrew doesn’t install any software dependencies in the backg
       ENV.append "CFLAGS", "-stdlib=libstdc++"
       ENV.append "LDFLAGS", "-stdlib=libstdc++ -lstdc++"
       # The following is necessary because libtool likes to strip LDFLAGS:
-      ENV["CXX"] = "/usr/bin/clang -stdlib=libstdc++"
+      ENV["CXX"] = "/usr/bin/clang++ -stdlib=libstdc++"
       ...
 </code></pre>
 
