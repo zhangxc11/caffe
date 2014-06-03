@@ -213,6 +213,11 @@ Make sure that homebrew doesn’t install any software dependencies in the backg
 <p><strong>Note</strong> that the HDF5 dependency is provided by Anaconda Python in this case.
 If you’re not using Anaconda, include <code>hdf5</code> in the list above.</p>
 
+<p><strong>Note</strong> that in order to build the caffe python wrappers you must install boost using the –with-python option:</p>
+
+<pre><code>brew install --build-from-source --with-python --fresh -vd boost
+</code></pre>
+
 <h4 id="windows">Windows</h4>
 
 <p>There is an unofficial Windows port of Caffe at <a href="https://github.com/niuzhiheng/caffe">niuzhiheng/caffe:windows</a>. Thanks <a href="https://github.com/niuzhiheng">@niuzhiheng</a>.</p>
