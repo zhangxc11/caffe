@@ -85,10 +85,10 @@ TYPED_TEST(ConvolutionLayerTest, TestCPUSimpleConvolution) {
   convolution_param->mutable_weight_filler()->set_value(1);
   convolution_param->mutable_bias_filler()->set_type("constant");
   convolution_param->mutable_bias_filler()->set_value(0.1);
+  Caffe::set_mode(Caffe::CPU);
   shared_ptr<Layer<TypeParam> > layer(
       new ConvolutionLayer<TypeParam>(layer_param));
   layer->SetUp(this->blob_bottom_vec_, &(this->blob_top_vec_));
-  Caffe::set_mode(Caffe::CPU);
   layer->Forward(this->blob_bottom_vec_, &(this->blob_top_vec_));
   // After the convolution, the output should all have output values 27.1
   const TypeParam* top_data = this->blob_top_->cpu_data();
@@ -113,10 +113,10 @@ TYPED_TEST(ConvolutionLayerTest, TestGPUSimpleConvolution) {
   convolution_param->mutable_weight_filler()->set_value(1);
   convolution_param->mutable_bias_filler()->set_type("constant");
   convolution_param->mutable_bias_filler()->set_value(0.1);
+  Caffe::set_mode(Caffe::GPU);
   shared_ptr<Layer<TypeParam> > layer(
       new ConvolutionLayer<TypeParam>(layer_param));
   layer->SetUp(this->blob_bottom_vec_, &(this->blob_top_vec_));
-  Caffe::set_mode(Caffe::GPU);
   layer->Forward(this->blob_bottom_vec_, &(this->blob_top_vec_));
   // After the convolution, the output should all have output values 27.1
   const TypeParam* top_data = this->blob_top_->cpu_data();
@@ -152,10 +152,10 @@ TYPED_TEST(ConvolutionLayerTest, TestCPUSimpleConvolutionGroup) {
   convolution_param->mutable_weight_filler()->set_value(1);
   convolution_param->mutable_bias_filler()->set_type("constant");
   convolution_param->mutable_bias_filler()->set_value(0.1);
+  Caffe::set_mode(Caffe::CPU);
   shared_ptr<Layer<TypeParam> > layer(
       new ConvolutionLayer<TypeParam>(layer_param));
   layer->SetUp(this->blob_bottom_vec_, &(this->blob_top_vec_));
-  Caffe::set_mode(Caffe::CPU);
   layer->Forward(this->blob_bottom_vec_, &(this->blob_top_vec_));
   // After the convolution, the output should all have output values 9.1
   const TypeParam* top_data = this->blob_top_->cpu_data();
@@ -199,10 +199,10 @@ TYPED_TEST(ConvolutionLayerTest, TestGPUSimpleConvolutionGroup) {
   convolution_param->mutable_weight_filler()->set_value(1);
   convolution_param->mutable_bias_filler()->set_type("constant");
   convolution_param->mutable_bias_filler()->set_value(0.1);
+  Caffe::set_mode(Caffe::GPU);
   shared_ptr<Layer<TypeParam> > layer(
       new ConvolutionLayer<TypeParam>(layer_param));
   layer->SetUp(this->blob_bottom_vec_, &(this->blob_top_vec_));
-  Caffe::set_mode(Caffe::GPU);
   layer->Forward(this->blob_bottom_vec_, &(this->blob_top_vec_));
   // After the convolution, the output should all have output values 9.1
   const TypeParam* top_data = this->blob_top_->cpu_data();
