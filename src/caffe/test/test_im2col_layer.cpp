@@ -60,8 +60,8 @@ TYPED_TEST(Im2colLayerTest, TestCPU) {
       layer_param.mutable_convolution_param();
   convolution_param->set_kernel_size(3);
   convolution_param->set_stride(2);
-  Im2colLayer<TypeParam> layer(layer_param);
   Caffe::set_mode(Caffe::CPU);
+  Im2colLayer<TypeParam> layer(layer_param);
   layer.SetUp(this->blob_bottom_vec_, &(this->blob_top_vec_));
   layer.Forward(this->blob_bottom_vec_, &(this->blob_top_vec_));
   // We are lazy and will only check the top left block
@@ -77,8 +77,8 @@ TYPED_TEST(Im2colLayerTest, TestGPU) {
       layer_param.mutable_convolution_param();
   convolution_param->set_kernel_size(3);
   convolution_param->set_stride(2);
-  Im2colLayer<TypeParam> layer(layer_param);
   Caffe::set_mode(Caffe::GPU);
+  Im2colLayer<TypeParam> layer(layer_param);
   layer.SetUp(this->blob_bottom_vec_, &(this->blob_top_vec_));
   layer.Forward(this->blob_bottom_vec_, &(this->blob_top_vec_));
   // We are lazy and will only check the top left block
