@@ -3,7 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Caffe</title>
+    <title>
+      Caffe | Caffe
+    </title>
 
     <link rel="stylesheet" href="stylesheets/reset.css">
     <link rel="stylesheet" href="stylesheets/styles.css">
@@ -27,7 +29,7 @@
     <div class="wrapper">
       <header>
         <h1 class="header"><a href="index.html">Caffe</a></h1>
-        <p class="header">Convolutional Architecture for Fast Feature Embedding</p>
+        <!-- <p class="header">Convolutional Architecture for Fast Feature Embedding</p> -->
 
         <ul>
           <!--<li class="download"><a class="buttons" href="https://github.com/BVLC/caffe/zipball/master">Download ZIP</a></li>
@@ -40,14 +42,14 @@
       </header>
       <section>
 
-      <h1 id="define-the-mnist-solver">Define the MNIST Solver</h1>
+      <h1 id="define_the_mnist_solver">Define the MNIST Solver</h1>
 
 <p>The page is under construction. For now, check out the comments in the solver prototxt file, which explains each line in the prototxt:</p>
 
 <pre><code># The training protocol buffer definition
-train_net: "lenet_train.prototxt"
+train_net: &quot;lenet_train.prototxt&quot;
 # The testing protocol buffer definition
-test_net: "lenet_test.prototxt"
+test_net: &quot;lenet_test.prototxt&quot;
 # test_iter specifies how many forward passes the test should carry out.
 # In the case of MNIST, we have test batch size 100 and 100 test iterations,
 # covering the full 10,000 testing images.
@@ -59,7 +61,7 @@ base_lr: 0.01
 momentum: 0.9
 weight_decay: 0.0005
 # The learning rate policy
-lr_policy: "inv"
+lr_policy: &quot;inv&quot;
 gamma: 0.0001
 power: 0.75
 # Display every 100 iterations
@@ -68,17 +70,16 @@ display: 100
 max_iter: 10000
 # snapshot intermediate results
 snapshot: 5000
-snapshot_prefix: "lenet"
+snapshot_prefix: &quot;lenet&quot;
 # solver mode: 0 for CPU and 1 for GPU
-solver_mode: 1
-</code></pre>
-
+solver_mode: 1</code></pre>
 
       </section>
-      <footer>
+<!--       <footer>
         <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a>.</small></p>
       </footer>
-    </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+ -->
+  </div>
+  <!--[if !IE]><script>fixScale(document);</script><![endif]-->
   </body>
 </html>
