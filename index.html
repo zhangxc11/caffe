@@ -7,10 +7,10 @@
       Caffe 
     </title>
 
-    <link rel="stylesheet" href="stylesheets/reset.css">
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="javascripts/scale.fix.js"></script>
+    <link rel="stylesheet" href="/stylesheets/reset.css">
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+    <link rel="stylesheet" href="/stylesheets/pygment_trac.css">
+
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -28,17 +28,15 @@
   </script>
     <div class="wrapper">
       <header>
-        <h1 class="header"><a href="index.html">Caffe</a></h1>
-        <!-- <p class="header">Convolutional Architecture for Fast Feature Embedding</p> -->
-
+        <h1 class="header"><a href="/">Caffe</a></h1>
+        <p class="header">
+          Deep learning framework developed by <a class="header name" href="http://daggerfs.com/">Yangqing Jia</a> / <a class="header name" href="http://bvlc.eecs.berkeley.edu/">BVLC</a>
+        </p>
         <ul>
-          <!--<li class="download"><a class="buttons" href="https://github.com/BVLC/caffe/zipball/master">Download ZIP</a></li>
-          <li class="download"><a class="buttons" href="https://github.com/BVLC/caffe/tarball/master">Download TAR</a></li>-->
-          <li><a class="buttons github" href="https://github.com/BVLC/caffe">View On GitHub</a></li>
+          <li>
+            <a class="buttons github" href="https://github.com/BVLC/caffe">View On GitHub</a>
+          </li>
         </ul>
-        <p class="header">Maintained by<br><a class="header name" href="http://bvlc.eecs.berkeley.edu/">BVLC</a></p>
-        <p class="header">Created by<br><a class="header name" href="http://daggerfs.com/">Yangqing Jia</a></p>
-
       </header>
       <section>
 
@@ -48,14 +46,16 @@
 It was created by <a href="http://daggerfs.com">Yangqing Jia</a>, and is in active development by the Berkeley Vision and Learning Center (<a href="http://bvlc.eecs.berkeley.edu">BVLC</a>) and by community contributors.
 Caffe is released under the <a href="https://github.com/BVLC/caffe/blob/master/LICENSE">BSD 2-Clause license</a>.</p>
 
-<h2 id="why">Why</h2>
+<p>Check out our web image classification <a href="http://demo.caffe.berkeleyvision.org">demo</a>!</p>
+
+<h2 id="why-use-caffe">Why use Caffe?</h2>
 
 <p><strong>Clean architecture</strong> enables rapid deployment.
 Networks are specified in simple config files, with no hard-coded parameters in the code.
-Switching between CPU and GPU code is as simple as setting a flag – so models can be trained on a GPU machine, and then used on commodity clusters.</p>
+Switching between CPU and GPU is as simple as setting a flag – so models can be trained on a GPU machine, and then used on commodity clusters.</p>
 
 <p><strong>Readable &amp; modifiable implementation</strong> fosters active development.
-In Caffe’s first six months, it has been forked by over 300 developers on Github, and many have contributed significant changes.</p>
+In Caffe’s first six months, it has been forked by over 300 developers on Github, and many have pushed significant changes.</p>
 
 <p><strong>Speed</strong> makes Caffe perfect for industry use.
 Caffe can process over <strong>40M images per day</strong> with a single NVIDIA K40 or Titan GPU*.
@@ -70,26 +70,50 @@ There is an active discussion and support community on <a href="https://github.c
 Consult performance <a href="/performance_hardware.html">details</a>.
 </p>
 
-<h2 id="how">How</h2>
+<h2 id="documentation">Documentation</h2>
 
 <ul>
-  <li><a href="https://www.dropbox.com/s/10fx16yp5etb8dv/caffe-presentation.pdf">Introductory slides</a>: slides about the Caffe architecture, <em>updated 03/14</em>.</li>
-  <li><a href="http://ucb-icsi-vision-group.github.io/caffe-paper/caffe.pdf">ACM MM paper</a>: a 4-page report for the ACM Multimedia Open Source competition.</li>
-  <li><a href="/installation.html">Installation instructions</a>: tested on Ubuntu, Red Hat, OS X.</li>
-  <li><a href="/getting_pretrained_models.html">Pre-trained models</a>: BVLC provides ready-to-use models for non-commercial use.</li>
-  <li><a href="/development.html">Development</a>: Guidelines for development and contributing to Caffe.</li>
+  <li><a href="http://dl.caffe.berkeleyvision.org/caffe-presentation.pdf">Introductory slides</a><br />
+Slides about the Caffe architecture, <em>updated 03/14</em>.</li>
+  <li><a href="http://ucb-icsi-vision-group.github.io/caffe-paper/caffe.pdf">ACM MM paper</a><br />
+A 4-page report for the ACM Multimedia Open Source competition.</li>
+  <li><a href="/installation.html">Installation instructions</a><br />
+Tested on Ubuntu, Red Hat, OS X.</li>
+  <li><a href="/getting_pretrained_models.html">Pre-trained models</a><br />
+BVLC provides ready-to-use models for non-commercial use.</li>
+  <li><a href="/development.html">Development</a><br />
+Guidelines for development and contributing to Caffe.</li>
 </ul>
 
-<h3 id="tutorials-and-examples">Tutorials and Examples</h3>
+<h3 id="examples">Examples</h3>
 
 <ul>
-  <li><a href="http://nbviewer.ipython.org/github/BVLC/caffe/blob/master/examples/imagenet_classification.ipynb">Image Classification [notebook]</a>: classify images with the pretrained ImageNet model by the Python interface.</li>
-  <li><a href="http://nbviewer.ipython.org/github/BVLC/caffe/blob/master/examples/detection.ipynb">Detection [notebook]</a>: run a pretrained model as a detector in Python.</li>
-  <li><a href="http://nbviewer.ipython.org/github/BVLC/caffe/blob/master/examples/filter_visualization.ipynb">Visualizing Features and Filters [notebook]</a>: extracting features and visualizing trained filters with an example image, viewed layer-by-layer.</li>
-  <li><a href="/mnist.html">LeNet / MNIST Demo</a>: end-to-end training and testing of LeNet on MNIST.</li>
-  <li><a href="/cifar10.html">CIFAR-10 Demo</a>: training and testing on the CIFAR-10 data.</li>
-  <li><a href="/imagenet_training.html">Training ImageNet</a>: recipe for end-to-end training of an ImageNet classifier.</li>
-  <li><a href="/feature_extraction.html">Feature extraction with C++</a>: feature extraction using pre-trained model.</li>
+  <li>
+    <div><a href="/gathered/examples/cifar10.html">CIFAR-10 tutorial</a><br />Train and test Caffe on CIFAR-10 data.</div>
+  </li>
+  <li>
+    <div><a href="/gathered/examples/feature_extraction.html">Feature extraction with Caffe C++ code.</a><br />Extract AlexNet features using the Caffe binary.</div>
+  </li>
+  <li>
+    <div><a href="/gathered/examples/imagenet.html">ImageNet tutorial</a><br />Train and test "AlexNet" on ImageNet challenge data.</div>
+  </li>
+  <li>
+    <div><a href="/gathered/examples/mnist.html">MNIST Tutorial</a><br />Train and test "LeNet" on MNIST data.</div>
+  </li>
+</ul>
+
+<h3 id="notebook-examples">Notebook examples</h3>
+
+<ul>
+  <li>
+    <div><a href="http://nbviewer.ipython.org/github/BVLC/caffe/blob/master/examples/detection.ipynb">ImageNet detection</a><br />Run a pretrained model as a detector in Python.</div>
+  </li>
+  <li>
+    <div><a href="http://nbviewer.ipython.org/github/BVLC/caffe/blob/master/examples/filter_visualization.ipynb">Filter visualization</a><br />Extracting features and visualizing trained filters with an example image, viewed layer-by-layer.</div>
+  </li>
+  <li>
+    <div><a href="http://nbviewer.ipython.org/github/BVLC/caffe/blob/master/examples/imagenet_classification.ipynb">ImageNet Classification</a><br />Use the pre-trained ImageNet model to classify images with the Python interface.</div>
+  </li>
 </ul>
 
 <h2 id="citing-caffe">Citing Caffe</h2>
@@ -122,11 +146,6 @@ If you’d like to contribute, please read the <a href="development.html">develo
 
 
       </section>
-<!--       <footer>
-        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a>.</small></p>
-      </footer>
- -->
   </div>
-  <!--[if !IE]><script>fixScale(document);</script><![endif]-->
   </body>
 </html>

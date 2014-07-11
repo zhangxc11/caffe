@@ -4,13 +4,13 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>
-      Caffe | Caffe
+      Caffe | Feature extraction with Caffe C++ code.
     </title>
 
-    <link rel="stylesheet" href="stylesheets/reset.css">
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="javascripts/scale.fix.js"></script>
+    <link rel="stylesheet" href="/stylesheets/reset.css">
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+    <link rel="stylesheet" href="/stylesheets/pygment_trac.css">
+
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -28,17 +28,15 @@
   </script>
     <div class="wrapper">
       <header>
-        <h1 class="header"><a href="index.html">Caffe</a></h1>
-        <!-- <p class="header">Convolutional Architecture for Fast Feature Embedding</p> -->
-
+        <h1 class="header"><a href="/">Caffe</a></h1>
+        <p class="header">
+          Deep learning framework developed by <a class="header name" href="http://daggerfs.com/">Yangqing Jia</a> / <a class="header name" href="http://bvlc.eecs.berkeley.edu/">BVLC</a>
+        </p>
         <ul>
-          <!--<li class="download"><a class="buttons" href="https://github.com/BVLC/caffe/zipball/master">Download ZIP</a></li>
-          <li class="download"><a class="buttons" href="https://github.com/BVLC/caffe/tarball/master">Download TAR</a></li>-->
-          <li><a class="buttons github" href="https://github.com/BVLC/caffe">View On GitHub</a></li>
+          <li>
+            <a class="buttons github" href="https://github.com/BVLC/caffe">View On GitHub</a>
+          </li>
         </ul>
-        <p class="header">Maintained by<br><a class="header name" href="http://bvlc.eecs.berkeley.edu/">BVLC</a></p>
-        <p class="header">Created by<br><a class="header name" href="http://daggerfs.com/">Yangqing Jia</a></p>
-
       </header>
       <section>
 
@@ -98,7 +96,7 @@ We can use any other layer, as well, such as <code>conv5</code> or <code>pool3</
 
 <p>The features are stored to LevelDB <code>examples/_temp/features</code>, ready for access by some other code.</p>
 
-<p>If you meet with the error “Check failed: status.ok() Failed to open leveldb examples/_temp/features”, it is because the directory examples/_temp/features has been created the last time you run the command. Remove it and run again. </p>
+<p>If you meet with the error “Check failed: status.ok() Failed to open leveldb examples/_temp/features”, it is because the directory examples/_temp/features has been created the last time you run the command. Remove it and run again.</p>
 
 <pre><code>rm -rf examples/_temp/features/
 </code></pre>
@@ -114,11 +112,6 @@ We can use any other layer, as well, such as <code>conv5</code> or <code>pool3</
 
 
       </section>
-<!--       <footer>
-        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a>.</small></p>
-      </footer>
- -->
   </div>
-  <!--[if !IE]><script>fixScale(document);</script><![endif]-->
   </body>
 </html>
