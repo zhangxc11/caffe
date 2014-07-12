@@ -47,9 +47,14 @@ The <a href="http://bvlc.eecs.berkeley.edu/">BVLC</a> maintainers welcome all co
 
 <h3 id="documentation">Documentation</h3>
 
-<p>Tutorials and general documentation – including this website – are written in Markdown format in the <code>docs/</code> folder.
-While the format is quite easy to read directly, you may prefer to view the whole thing as a website.
-To do so, simply run <code>jekyll serve -s docs</code> and view the documentation website at <code>http://0.0.0.0:4000</code> (for <a href="http://jekyllrb.com/">jekyll</a>, you must have ruby and do <code>gem install jekyll</code>).</p>
+<p>This website, written with <a href="http://jekyllrb.com/">Jekyll</a>, functions as the official Caffe documentation – simply run <code>scripts/build_docs.sh</code> and view the website at <code>http://0.0.0.0:4000</code>.</p>
+
+<p>We prefer tutorials and examples to be documented close to where they live, in <code>readme.md</code> files.
+The <code>build_docs.sh</code> script gathers all <code>examples/**/readme.md</code> and <code>examples/*.ipynb</code> files, and makes a table of contents.
+To be included in the docs, the readme files must be annotated with <a href="http://jekyllrb.com/docs/frontmatter/">YAML front-matter</a>, including the flag <code>include_in_docs: true</code>.
+Similarly for IPython notebooks: simply include <code>"include_in_docs": true</code> in the <code>"metadata"</code> JSON field.</p>
+
+<p>Other docs, such as installation guides, are written in the <code>docs</code> directory and manually linked to from the <code>index.md</code> page.</p>
 
 <p>We strive to provide provide lots of usage examples, and to document all code in docstrings.
 We absolutely appreciate any contribution to this effort!</p>
