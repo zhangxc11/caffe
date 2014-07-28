@@ -37,6 +37,7 @@ void convert_dataset(const string& input_folder, const string& output_folder) {
   leveldb::Options options;
   options.create_if_missing = true;
   options.error_if_exists = true;
+  options.max_open_files = 10;
   // Data buffer
   int label;
   char str_buffer[kCIFARImageNBytes];

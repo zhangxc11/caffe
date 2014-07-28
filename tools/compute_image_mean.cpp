@@ -24,6 +24,7 @@ int main(int argc, char** argv) {
   leveldb::DB* db;
   leveldb::Options options;
   options.create_if_missing = false;
+  options.max_open_files = 10;
 
   LOG(INFO) << "Opening leveldb " << argv[1];
   leveldb::Status status = leveldb::DB::Open(
@@ -67,6 +68,8 @@ int main(int argc, char** argv) {
       }
     }
     ++count;
+    // LOG(ERROR) << "datum memory used:" << datum.SpaceUsed() << "bytes";
+    datum.Clear();
     if (count % 10000 == 0) {
       LOG(ERROR) << "Processed " << count << " files.";
     }
