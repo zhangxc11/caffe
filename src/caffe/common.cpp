@@ -37,6 +37,11 @@ Caffe::Caffe()
       != CURAND_STATUS_SUCCESS) {
     LOG(ERROR) << "Cannot create Curand generator. Curand won't be available.";
   }
+  // get device prop,zxc
+  int device;
+  if(cudaSuccess == cudaGetDevice(&device)) {
+    CUDA_CHECK(cudaGetDeviceProperties(&prop, device));
+  }
 }
 
 Caffe::~Caffe() {
@@ -79,6 +84,8 @@ void Caffe::SetDevice(const int device_id) {
       CURAND_RNG_PSEUDO_DEFAULT));
   CURAND_CHECK(curandSetPseudoRandomGeneratorSeed(Get().curand_generator_,
       cluster_seedgen()));
+  // get device prop,zxc
+   CUDA_CHECK(cudaGetDeviceProperties(&Get().prop, device_id));
 }
 
 void Caffe::DeviceQuery() {
