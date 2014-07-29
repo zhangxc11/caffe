@@ -24,15 +24,6 @@ layers {
   }
 }
 layers {
-  name: "embed"
-  type: EMBEDDING
-  bottom: "label"
-  top: "labvec"
-  embed_param {
-    source: "embeddingvec.binaryproto"
-  }
-}
-layers {
   name: "relu1"
   type: RELU
   bottom: "conv1"
@@ -213,24 +204,27 @@ layers {
   }
 }
 layers {
-  name: "fc8"
+  name: "trans1k"
   type: INNER_PRODUCT
   bottom: "fc7"
-  top: "fc8"
+  top: "trans"
   inner_product_param {
     num_output: 1000
   }
 }
 layers {
-  name: "prob"
-  type: SOFTMAX
-  bottom: "fc8"
-  top: "prob"
+  name: "sim"
+  type: DOT_PRODUCT_SIMILARITY
+  bottom: "trans"
+  top: "sim"
+  dot_product_similarity_param {
+    source: "wordvector1k.binaryproto"
+  }
 }
 layers {
   name: "accuracy"
   type: ACCURACY
-  bottom: "prob"
+  bottom: "sim"
   bottom: "label"
   top: "accuracy"
 }

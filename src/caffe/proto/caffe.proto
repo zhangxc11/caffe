@@ -103,7 +103,7 @@ message SolverState {
 
 // Update the next available ID when you add a new LayerParameter field.
 //
-// LayerParameter next available ID: 23 (last added: memory_data_param)
+// LayerParameter next available ID: 25 (last added: dot_product_similarity_param)
 message LayerParameter {
   repeated string bottom = 2; // the name of the bottom blobs
   repeated string top = 3; // the name of the top blobs
@@ -114,7 +114,7 @@ message LayerParameter {
   // line above the enum. Update the next available ID when you add a new
   // LayerType.
   //
-  // LayerType next available ID: 30 (last added: MEMORY_DATA)
+  // LayerType next available ID: 32 (last added: DOT_PRODUCT_SIMILARITY)
   enum LayerType {
     // "NONE" layer type is 0th enum element so that we don't cause confusion
     // by defaulting to an existent LayerType (instead, should usually error if
@@ -125,6 +125,7 @@ message LayerParameter {
     CONCAT = 3;
     CONVOLUTION = 4;
     DATA = 5;
+    DOT_PRODUCT_SIMILARITY = 31;
     DROPOUT = 6;
     EUCLIDEAN_LOSS = 7;
     ELTWISE_PRODUCT = 25;
@@ -144,6 +145,7 @@ message LayerParameter {
     RELU = 18;
     SIGMOID = 19;
     SIGMOID_CROSS_ENTROPY_LOSS = 27;
+    SIM_HINGE_RANK_LOSS = 30;
     SOFTMAX = 20;
     SOFTMAX_LOSS = 21;
     SPLIT = 22;
@@ -164,6 +166,7 @@ message LayerParameter {
   optional ConcatParameter concat_param = 9;
   optional ConvolutionParameter convolution_param = 10;
   optional DataParameter data_param = 11;
+  optional DotProductSimilarityParameter dot_product_similarity_param = 24;
   optional DropoutParameter dropout_param = 12;
   optional HDF5DataParameter hdf5_data_param = 13;
   optional HDF5OutputParameter hdf5_output_param = 14;
@@ -174,6 +177,7 @@ message LayerParameter {
   optional MemoryDataParameter memory_data_param = 22;
   optional PoolingParameter pooling_param = 19;
   optional PowerParameter power_param = 21;
+  optional SimHingeRankLossParameter sim_hinge_rank_loss_param = 23;
   optional WindowDataParameter window_data_param = 20;
 
   // DEPRECATED: The layer parameters specified as a V0LayerParameter.
@@ -222,6 +226,12 @@ message DataParameter {
   // point would be set as rand_skip * rand(0,1). Note that rand_skip should not
   // be larger than the number of keys in the leveldb.
   optional uint32 rand_skip = 7 [default = 0];
+}
+
+// Message that stores parameters used by DotProductSimilarityParameter
+message DotProductSimilarityParameter {
+  // Specify the similarity vector matrix source.
+  optional string source = 1;
 }
 
 // Message that stores parameters used by DropoutLayer
@@ -323,6 +333,12 @@ message PowerParameter {
   optional float power = 1 [default = 1.0];
   optional float scale = 2 [default = 1.0];
   optional float shift = 3 [default = 0.0];
+}
+
+// Message that stores parameters used by SimHingeRankLossLayer
+message SimHingeRankLossParameter {
+  // Specify the similarity vector matrix source.
+  optional string source = 1;
 }
 
 // Message that stores parameters used by WindowDataLayer

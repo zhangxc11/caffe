@@ -288,10 +288,10 @@ layers {
   }
 }
 layers {
-  name: "fc8"
+  name: "trans1k"
   type: INNER_PRODUCT
   bottom: "fc7"
-  top: "fc8"
+  top: "trans"
   blobs_lr: 1
   blobs_lr: 2
   weight_decay: 1
@@ -310,7 +310,10 @@ layers {
 }
 layers {
   name: "loss"
-  type: SOFTMAX_LOSS
-  bottom: "fc8"
+  type: SIM_HINGE_RANK_LOSS
+  bottom: "trans"
   bottom: "label"
+  sim_hinge_rank_loss_param {
+    source: "wordvector1k.binaryproto"
+  }
 }
