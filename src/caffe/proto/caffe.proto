@@ -228,7 +228,7 @@ message DataParameter {
   optional uint32 rand_skip = 7 [default = 0];
 }
 
-// Message that stores parameters used by DotProductSimilarityParameter
+// Message that stores parameters used by DotProductSimilarityLayer
 message DotProductSimilarityParameter {
   // Specify the similarity vector matrix source.
   optional string source = 1;

@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <vector>
-#include <iostream>
 
 #include "caffe/layer.hpp"
 #include "caffe/vision_layers.hpp"
@@ -27,14 +26,12 @@ Dtype ReLULayer<Dtype>::Forward_gpu(const vector<Blob<Dtype>*>& bottom,
   // NOLINT_NEXT_LINE(whitespace/operators)
   ReLUForward<Dtype><<<CAFFE_GET_BLOCKS(count), CAFFE_CUDA_NUM_THREADS>>>(
       count, bottom_data, top_data);
-  //if (count > 14520000) {
-  //  std::cout << " count: " << count << " bottom_data: "
+  CUDA_POST_KERNEL_CHECK;
+  //  << " count: " << count << " bottom_data: "
   //     << (unsigned long)bottom_data
   //     << " top_data: " << (unsigned long)top_data
   //     << " blocks: " << CAFFE_GET_BLOCKS(count)
-  //     << " threads: " << CAFFE_CUDA_NUM_THREADS << std::endl;
-  //}
-  CUDA_POST_KERNEL_CHECK;
+  //     << " threads: " << CAFFE_CUDA_NUM_THREADS;
   return Dtype(0);
 }
 

@@ -39,8 +39,8 @@ Caffe::Caffe()
   }
   // get device prop,zxc
   int device;
-  if(cudaSuccess == cudaGetDevice(&device)) {
-    CUDA_CHECK(cudaGetDeviceProperties(&prop, device));
+  if (cudaSuccess == cudaGetDevice(&device)) {
+    CUDA_CHECK(cudaGetDeviceProperties(&prop_, device));
   }
 }
 
@@ -85,7 +85,7 @@ void Caffe::SetDevice(const int device_id) {
   CURAND_CHECK(curandSetPseudoRandomGeneratorSeed(Get().curand_generator_,
       cluster_seedgen()));
   // get device prop,zxc
-   CUDA_CHECK(cudaGetDeviceProperties(&Get().prop, device_id));
+  CUDA_CHECK(cudaGetDeviceProperties(&Get().prop_, device_id));
 }
 
 void Caffe::DeviceQuery() {

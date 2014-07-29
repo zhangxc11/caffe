@@ -32,6 +32,8 @@ Layer<Dtype>* GetLayer(const LayerParameter& param) {
     return new ConvolutionLayer<Dtype>(param);
   case LayerParameter_LayerType_DATA:
     return new DataLayer<Dtype>(param);
+  case LayerParameter_LayerType_DOT_PRODUCT_SIMILARITY:
+    return new DotProductSimilarityLayer<Dtype>(param);
   case LayerParameter_LayerType_DROPOUT:
     return new DropoutLayer<Dtype>(param);
   case LayerParameter_LayerType_EUCLIDEAN_LOSS:
@@ -70,6 +72,8 @@ Layer<Dtype>* GetLayer(const LayerParameter& param) {
     return new SigmoidLayer<Dtype>(param);
   case LayerParameter_LayerType_SIGMOID_CROSS_ENTROPY_LOSS:
     return new SigmoidCrossEntropyLossLayer<Dtype>(param);
+  case LayerParameter_LayerType_SIM_HINGE_RANK_LOSS:
+    return new SimHingeRankLossLayer<Dtype>(param);
   case LayerParameter_LayerType_SOFTMAX:
     return new SoftmaxLayer<Dtype>(param);
   case LayerParameter_LayerType_SOFTMAX_LOSS:

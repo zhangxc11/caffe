@@ -109,7 +109,7 @@ class Caffe {
     return Get().curand_generator_;
   }
   // device property
-  inline static cudaDeviceProp cuProp(){ return Get().prop; }
+  inline static cudaDeviceProp cuProp() { return Get().prop_; }
 
   // Returns the mode: running on CPU or GPU.
   inline static Brew mode() { return Get().mode_; }
@@ -140,7 +140,7 @@ class Caffe {
   Phase phase_;
   static shared_ptr<Caffe> singleton_;
 
-  cudaDeviceProp prop;
+  cudaDeviceProp prop_;
 
  private:
   // The private constructor to avoid duplicate instantiation.
@@ -166,7 +166,8 @@ const char* curandGetErrorString(curandStatus_t error);
 inline int CAFFE_GET_BLOCKS(const int N) {
   // return (N + CAFFE_CUDA_NUM_THREADS - 1) / CAFFE_CUDA_NUM_THREADS;
   int num_blocks = (N + CAFFE_CUDA_NUM_THREADS - 1) / CAFFE_CUDA_NUM_THREADS;
-  return num_blocks < Caffe::cuProp().maxGridSize[0]? num_blocks : Caffe::cuProp().maxGridSize[0];
+  return num_blocks < Caffe::cuProp().maxGridSize[0]
+           ? num_blocks : Caffe::cuProp().maxGridSize[0];
 }
 
 

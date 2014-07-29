@@ -344,6 +344,34 @@ class SoftmaxLayer : public Layer<Dtype> {
   Blob<Dtype> scale_;
 };
 
+/* DotProductSimilarityLayer
+*/
+template <typename Dtype>
+class DotProductSimilarityLayer : public Layer<Dtype> {
+ public:
+  explicit DotProductSimilarityLayer(const LayerParameter& param)
+      : Layer<Dtype>(param) {}
+  virtual void SetUp(const vector<Blob<Dtype>*>& bottom,
+      vector<Blob<Dtype>*>* top);
+
+ protected:
+  virtual Dtype Forward_cpu(const vector<Blob<Dtype>*>& bottom,
+      vector<Blob<Dtype>*>* top);
+  virtual Dtype Forward_gpu(const vector<Blob<Dtype>*>& bottom,
+      vector<Blob<Dtype>*>* top);
+  virtual void Backward_cpu(const vector<Blob<Dtype>*>& top,
+      const bool propagate_down, vector<Blob<Dtype>*>* bottom);
+  virtual void Backward_gpu(const vector<Blob<Dtype>*>& top,
+     const bool propagate_down, vector<Blob<Dtype>*>* bottom);
+
+  // sum_multiplier is just used to carry out sum
+  Blob<Dtype> sum_multiplier_;
+  // scale is an intermediate blob to hold temporary results.
+  Blob<Dtype> scale_;
+  // simvec is similarity vectors to do dot product
+  Blob<Dtype> simvec_;
+};
+
 /* SoftmaxWithLossLayer
   Implements softmax and computes the loss.
 
