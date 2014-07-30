@@ -59,14 +59,14 @@ Dtype DotProductSimilarityLayer<Dtype>::Forward_cpu(
   // do inner product
   caffe_cpu_gemm<Dtype>(CblasNoTrans, CblasTrans, M_, N_, K_, (Dtype)1.,
       bottom_data, weight, (Dtype)0., top_data);
-  // uniform vectors
-  // sum
-  caffe_cpu_gemv<Dtype>(CblasNoTrans, M_, K_, 1., bottom_data,
-      sum_multiplier_.cpu_data(), 0., scale_data);
-  // Do division
-  for (int i = 0; i < M_; ++i) {
-    caffe_scal<Dtype>(N_, Dtype(1.) / scale_data[i], top_data + i * N_);
-  }
+  // // uniform vectors
+  // // sum
+  // caffe_cpu_gemv<Dtype>(CblasNoTrans, M_, K_, 1., bottom_data,
+  //     sum_multiplier_.cpu_data(), 0., scale_data);
+  // // Do division
+  // for (int i = 0; i < M_; ++i) {
+  //   caffe_scal<Dtype>(N_, Dtype(1.) / scale_data[i], top_data + i * N_);
+  // }
   return Dtype(0);
 }
 
@@ -84,18 +84,18 @@ void DotProductSimilarityLayer<Dtype>::Backward_cpu(
 
   caffe_cpu_gemm<Dtype>(CblasNoTrans, CblasNoTrans, M_, K_, N_, (Dtype)1.,
       top_diff, this->simvec_.cpu_data(), (Dtype)0., bottom_diff);
-  // Compute inner1d(top_diff, top_data) and subtract them from the bottom diff
-  for (int i = 0; i < M_; ++i) {
-    sub_data[i] = caffe_cpu_dot<Dtype>(N_, top_diff + i * N_,
-        top_data + i * N_);
-  }
-  // subtraction
-  caffe_cpu_gemm<Dtype>(CblasNoTrans, CblasNoTrans, M_, K_, 1, -1.,
-      sub_data, sum_multiplier_.cpu_data(), 1., bottom_diff);
-  // Do division
-  for (int i = 0; i < M_; ++i) {
-    caffe_scal<Dtype>(K_, Dtype(1.) / scale_data[i], bottom_diff + i * K_);
-  }
+  // // Compute inner1d(top_diff, top_data) and subtract them from the bottom diff
+  // for (int i = 0; i < M_; ++i) {
+  //   sub_data[i] = caffe_cpu_dot<Dtype>(N_, top_diff + i * N_,
+  //       top_data + i * N_);
+  // }
+  // // subtraction
+  // caffe_cpu_gemm<Dtype>(CblasNoTrans, CblasNoTrans, M_, K_, 1, -1.,
+  //     sub_data, sum_multiplier_.cpu_data(), 1., bottom_diff);
+  // // Do division
+  // for (int i = 0; i < M_; ++i) {
+  //   caffe_scal<Dtype>(K_, Dtype(1.) / scale_data[i], bottom_diff + i * K_);
+  // }
 }
 
 

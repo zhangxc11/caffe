@@ -63,7 +63,8 @@ class DotProductSimilarityLayerTest : public ::testing::Test {
             bottom_data[i * K_ + k] * vec_data[j * K_ + k];
           sum += bottom_data[i * K_ + k];
         }
-        result_data[i * N_ + j] /= sum;
+        // needn't divided by sum
+        // result_data[i * N_ + j] /= sum;
       }
     }
   }
