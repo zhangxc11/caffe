@@ -364,10 +364,14 @@ class DotProductSimilarityLayer : public Layer<Dtype> {
   virtual void Backward_gpu(const vector<Blob<Dtype>*>& top,
      const bool propagate_down, vector<Blob<Dtype>*>* bottom);
 
+  int M_;
+  int K_;
+  int N_;
   // sum_multiplier is just used to carry out sum
   Blob<Dtype> sum_multiplier_;
   // scale is an intermediate blob to hold temporary results.
   Blob<Dtype> scale_;
+  Blob<Dtype> sub_;
   // simvec is similarity vectors to do dot product
   Blob<Dtype> simvec_;
 };
