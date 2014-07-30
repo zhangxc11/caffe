@@ -55,9 +55,9 @@ Dtype DotProductSimilarityLayer<Dtype>::Forward_gpu(
       sum_multiplier_.gpu_data(), 0., scale_data);
   // Do division
   // NOLINT_NEXT_LINE(whitespace/operators)
-  kernel_dotp_div<Dtype><<<CAFFE_GET_BLOCKS(M_ * K_),
+  kernel_dotp_div<Dtype><<<CAFFE_GET_BLOCKS(M_ * N_),
                               CAFFE_CUDA_NUM_THREADS>>>(
-      M_, K_, scale_data, top_data);
+      M_, N_, scale_data, top_data);
   return Dtype(0);
 }
 
@@ -69,6 +69,7 @@ void DotProductSimilarityLayer<Dtype>::Backward_gpu(
   if (!propagate_down) return;
   const Dtype* top_diff = top[0]->gpu_diff();
   const Dtype* top_data = top[0]->gpu_data();
+  const Dtype* scale_data = scale_.gpu_data();
   Dtype* bottom_diff = (*bottom)[0]->mutable_gpu_diff();
   caffe_gpu_gemm<Dtype>(CblasNoTrans, CblasNoTrans, M_, K_, N_, (Dtype)1.,
       top_diff, this->simvec_.gpu_data(), (Dtype)0., bottom_diff);
@@ -77,7 +78,6 @@ void DotProductSimilarityLayer<Dtype>::Backward_gpu(
   // mode
   CUBLAS_CHECK(cublasSetPointerMode(Caffe::cublas_handle(),
       CUBLAS_POINTER_MODE_DEVICE));
-  Dtype* scale_data = scale_.mutable_gpu_data();
   Dtype* sub_data = sub_.mutable_gpu_data();
   for (int i = 0; i < M_; ++i) {
     caffe_gpu_dot<Dtype>(N_, top_diff + i * N_,

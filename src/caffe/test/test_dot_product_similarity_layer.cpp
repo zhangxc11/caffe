@@ -25,13 +25,16 @@ template <typename Dtype>
 class DotProductSimilarityLayerTest : public ::testing::Test {
  protected:
   DotProductSimilarityLayerTest()
-      : blob_bottom_(new Blob<Dtype>(2, 3, 4, 5)),
+      : M_(3), N_(20), K_(3*4*5),
+        blob_bottom_(new Blob<Dtype>(M_, 3, 4, 5)),
         blob_top_(new Blob<Dtype>()),
-        blob_vec_(new Blob<Dtype>(1, 1, 20, 60)),
-        blob_result_(new Blob<Dtype>(1, 1, 2, 20)),
+        blob_vec_(new Blob<Dtype>(1, 1, N_, K_)),
+        blob_result_(new Blob<Dtype>(1, 1, M_, N_)),
         filename_(new string(tmpnam(NULL))) {
     // fill the values
     FillerParameter filler_param;
+    filler_param.set_type("uniform");
+    filler_param.set_min(-1);
     UniformFiller<Dtype> filler(filler_param);
     filler.Fill(this->blob_bottom_);
     filler.Fill(this->blob_vec_);
@@ -50,16 +53,17 @@ class DotProductSimilarityLayerTest : public ::testing::Test {
     Dtype *result_data = blob_result_->mutable_cpu_data();
     const Dtype *bottom_data = blob_bottom_->cpu_data();
     const Dtype *vec_data = blob_vec_->cpu_data();
-    const int M = 2;
-    const int N = 20;
-    const int K = 60;
-    for (int i = 0; i < M; i++) {
-      for (int j = 0; j < N; j++) {
-        result_data[i * N + j] = 0;
-        for (int k = 0; k < K; k++) {
-          result_data[i * N + j] +=
-            bottom_data[i * K + k] * vec_data[j * K + k];
+    Dtype sum;
+    for (int i = 0; i < M_; i++) {
+      for (int j = 0; j < N_; j++) {
+        result_data[i * N_ + j] = 0;
+        sum = 0;
+        for (int k = 0; k < K_; k++) {
+          result_data[i * N_ + j] +=
+            bottom_data[i * K_ + k] * vec_data[j * K_ + k];
+          sum += bottom_data[i * K_ + k];
         }
+        result_data[i * N_ + j] /= sum;
       }
     }
   }
@@ -70,6 +74,9 @@ class DotProductSimilarityLayerTest : public ::testing::Test {
     delete blob_result_;
   }
 
+  const int M_;
+  const int N_;
+  const int K_;
   shared_ptr<string> filename_;
   Blob<Dtype>* const blob_bottom_;
   Blob<Dtype>* const blob_top_;
@@ -90,10 +97,10 @@ TYPED_TEST(DotProductSimilarityLayerTest, TestSetUp) {
   shared_ptr<DotProductSimilarityLayer<TypeParam> > layer(
       new DotProductSimilarityLayer<TypeParam>(layer_param));
   layer->SetUp(this->blob_bottom_vec_, &(this->blob_top_vec_));
-  EXPECT_EQ(this->blob_top_->num(), 1);
+  EXPECT_EQ(this->blob_top_->num(), this->M_);
   EXPECT_EQ(this->blob_top_->height(), 1);
-  EXPECT_EQ(this->blob_top_->width(), 2);
-  EXPECT_EQ(this->blob_top_->channels(), 20);
+  EXPECT_EQ(this->blob_top_->width(), 1);
+  EXPECT_EQ(this->blob_top_->channels(), this->N_);
 }
 
 TYPED_TEST(DotProductSimilarityLayerTest, TestCPU) {
@@ -110,7 +117,7 @@ TYPED_TEST(DotProductSimilarityLayerTest, TestCPU) {
   const TypeParam* result = this->blob_result_->cpu_data();
   const int count = this->blob_top_->count();
   for (int i = 0; i < count; ++i) {
-    EXPECT_LE(abs(result[i] - data[i]), 1e-3);
+    EXPECT_NEAR(result[i], data[i], fabs(result[i]) * 1e-4);
   }
 }
 
@@ -129,7 +136,7 @@ TYPED_TEST(DotProductSimilarityLayerTest, TestGPU) {
     const TypeParam* result = this->blob_result_->cpu_data();
     const int count = this->blob_top_->count();
     for (int i = 0; i < count; ++i) {
-      EXPECT_LE(abs(result[i] - data[i]), 1e-3);
+      EXPECT_NEAR(result[i], data[i], fabs(result[i]) * 1e-4);
     }
   } else {
     LOG(ERROR) << "Skipping test due to old architecture.";
