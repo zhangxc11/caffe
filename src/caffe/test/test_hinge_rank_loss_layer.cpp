@@ -60,14 +60,45 @@ TYPED_TEST(HingeRankLossLayerTest, TestGradientCPU) {
       &(this->blob_top_vec_), 0, -1, -1);
 }
 
+TYPED_TEST(HingeRankLossLayerTest, TestGPU) {
+  int deviceNum = 0;
+  cudaGetDeviceCount(&deviceNum);
+  ASSERT_GT(deviceNum, 0)
+      << "Failed due to no supported graphic card.";
+  if (sizeof(TypeParam) == 4 || CAFFE_TEST_CUDA_PROP.major >= 2) {
+    LayerParameter layer_param;
+    Caffe::set_mode(Caffe::CPU);
+    HingeRankLossLayer<TypeParam> layer(layer_param);
+    layer.SetUp(this->blob_bottom_vec_, &this->blob_top_vec_);
+    TypeParam loss = layer.Forward(this->blob_bottom_vec_,
+        &this->blob_top_vec_);
+    Caffe::set_mode(Caffe::GPU);
+    HingeRankLossLayer<TypeParam> gpulayer(layer_param);
+    gpulayer.SetUp(this->blob_bottom_vec_, &this->blob_top_vec_);
+    TypeParam gpuloss = gpulayer.Forward(this->blob_bottom_vec_,
+        &this->blob_top_vec_);
+    EXPECT_NEAR(loss, gpuloss, fabs(loss) * 1e-4);
+  } else {
+    LOG(ERROR) << "Skipping test due to old architecture.";
+  }
+}
+
 TYPED_TEST(HingeRankLossLayerTest, TestGradientGPU) {
-  LayerParameter layer_param;
-  Caffe::set_mode(Caffe::GPU);
-  HingeRankLossLayer<TypeParam> layer(layer_param);
-  layer.SetUp(this->blob_bottom_vec_, &this->blob_top_vec_);
-  GradientChecker<TypeParam> checker(1e-2, 1e-3, 1701, 1, 0.01);
-  checker.CheckGradientSingle(&layer, &(this->blob_bottom_vec_),
-      &(this->blob_top_vec_), 0, -1, -1);
+  int deviceNum = 0;
+  cudaGetDeviceCount(&deviceNum);
+  ASSERT_GT(deviceNum, 0)
+      << "Failed due to no supported graphic card.";
+  if (sizeof(TypeParam) == 4 || CAFFE_TEST_CUDA_PROP.major >= 2) {
+    LayerParameter layer_param;
+    Caffe::set_mode(Caffe::GPU);
+    HingeRankLossLayer<TypeParam> layer(layer_param);
+    layer.SetUp(this->blob_bottom_vec_, &this->blob_top_vec_);
+    GradientChecker<TypeParam> checker(1e-2, 1e-3, 1701, 1, 0.01);
+    checker.CheckGradientSingle(&layer, &(this->blob_bottom_vec_),
+        &(this->blob_top_vec_), 0, -1, -1);
+  } else {
+    LOG(ERROR) << "Skipping test due to old architecture.";
+  }
 }
 
 }  // namespace caffe

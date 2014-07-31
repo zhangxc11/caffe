@@ -115,17 +115,25 @@ template <typename Dtype>
 class HingeRankLossLayer : public LossLayer<Dtype> {
  public:
   explicit HingeRankLossLayer(const LayerParameter& param)
-      : LossLayer<Dtype>(param) {}
+      : LossLayer<Dtype>(param), labval_() {}
   virtual void FurtherSetUp(const vector<Blob<Dtype>*>& bottom,
       vector<Blob<Dtype>*>* top);
 
  protected:
   virtual Dtype Forward_cpu(const vector<Blob<Dtype>*>& bottom,
       vector<Blob<Dtype>*>* top);
+  virtual Dtype Forward_gpu(const vector<Blob<Dtype>*>& bottom,
+      vector<Blob<Dtype>*>* top);
   virtual void Backward_cpu(const vector<Blob<Dtype>*>& top,
+      const bool propagate_down, vector<Blob<Dtype>*>* bottom);
+  virtual void Backward_gpu(const vector<Blob<Dtype>*>& top,
       const bool propagate_down, vector<Blob<Dtype>*>* bottom);
 
   Dtype margin_;
+  // sum_multiplier is just used to carry out sum
+  Blob<Dtype> sum_multiplier_;
+  // labval is an intermediate blob to hold temporary results
+  Blob<Dtype> labval_;
 };
 
 /* HingeLossLayer

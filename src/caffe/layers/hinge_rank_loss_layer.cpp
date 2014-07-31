@@ -21,6 +21,13 @@ void HingeRankLossLayer<Dtype>::FurtherSetUp(
   CHECK_EQ(bottom[1]->height(), 1);
   CHECK_EQ(bottom[1]->width(), 1);
   margin_ = this->layer_param_.hinge_rank_loss_param().margin();
+  sum_multiplier_.Reshape(1, bottom[0]->channels(),
+      bottom[0]->height(), bottom[0]->width());
+  Dtype* multiplier_data = sum_multiplier_.mutable_cpu_data();
+  for (int i = 0; i < sum_multiplier_.count(); ++i) {
+    multiplier_data[i] = 1.;
+  }
+  labval_.Reshape(bottom[0]->num(), 1, 1, 1);
 }
 
 template <typename Dtype>
@@ -29,18 +36,18 @@ Dtype HingeRankLossLayer<Dtype>::Forward_cpu(
     vector<Blob<Dtype>*>* top) {
   const Dtype* bottom_data = bottom[0]->cpu_data();
   Dtype* bottom_diff = bottom[0]->mutable_cpu_diff();
+  Dtype* labval_data = labval_.mutable_cpu_data();
   const Dtype* label = bottom[1]->cpu_data();
   int num = bottom[0]->num();
   int count = bottom[0]->count();
   int dim = count / num;
-  Dtype labval;
 
   caffe_copy(count, bottom_data, bottom_diff);
   for (int i = 0; i < num; ++i) {
-    labval = bottom_diff[i * dim + static_cast<int>(label[i])];
+    labval_data[i] = bottom_diff[i * dim + static_cast<int>(label[i])];
     for (int j = 0; j < dim; ++j) {
       bottom_diff[i * dim + j] =
-        max(Dtype(0), margin_ - labval + bottom_diff[i * dim + j]);
+        max(Dtype(0), margin_ - labval_data[i] + bottom_diff[i * dim + j]);
     }
   }
   for (int i = 0; i < num; ++i) {
@@ -54,14 +61,18 @@ void HingeRankLossLayer<Dtype>::Backward_cpu(const vector<Blob<Dtype>*>& top,
     const bool propagate_down, vector<Blob<Dtype>*>* bottom) {
   Dtype* bottom_diff = (*bottom)[0]->mutable_cpu_diff();
   const Dtype* label = (*bottom)[1]->cpu_data();
+  Dtype* labval_data = labval_.mutable_cpu_data();
   int num = (*bottom)[0]->num();
   int count = (*bottom)[0]->count();
   int dim = count / num;
 
   caffe_cpu_sign(count, bottom_diff, bottom_diff);
+  caffe_cpu_gemv<Dtype>(CblasNoTrans, num, dim, -1., bottom_diff,
+      sum_multiplier_.cpu_data(), 0., labval_data);
   for (int i = 0; i < num; ++i) {
-    bottom_diff[i * dim + static_cast<int>(label[i])] =
-      - caffe_cpu_asum(dim, bottom_diff + i * dim);
+    // bottom_diff[i * dim + static_cast<int>(label[i])] =
+    //  - caffe_cpu_asum(dim, bottom_diff + i * dim);
+    bottom_diff[i * dim + static_cast<int>(label[i])] = labval_data[i];
   }
   caffe_scal(count, Dtype(1. / num), bottom_diff);
 }
