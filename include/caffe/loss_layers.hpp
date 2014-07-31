@@ -109,15 +109,13 @@ class InfogainLossLayer : public LossLayer<Dtype> {
   Blob<Dtype> infogain_;
 };
 
-/* SimHingeRankLossLayer
+/* HingeRankLossLayer
 */
 template <typename Dtype>
-class SimHingeRankLossLayer : public LossLayer<Dtype> {
+class HingeRankLossLayer : public LossLayer<Dtype> {
  public:
-  explicit SimHingeRankLossLayer(const LayerParameter& param)
-      : LossLayer<Dtype>(param), simvec_() {}
-  virtual void FurtherSetUp(const vector<Blob<Dtype>*>& bottom,
-      vector<Blob<Dtype>*>* top);
+  explicit HingeRankLossLayer(const LayerParameter& param)
+      : LossLayer<Dtype>(param) {}
 
  protected:
   virtual Dtype Forward_cpu(const vector<Blob<Dtype>*>& bottom,
@@ -125,7 +123,6 @@ class SimHingeRankLossLayer : public LossLayer<Dtype> {
   virtual void Backward_cpu(const vector<Blob<Dtype>*>& top,
       const bool propagate_down, vector<Blob<Dtype>*>* bottom);
 
-  Blob<Dtype> simvec_;
 };
 
 /* HingeLossLayer
