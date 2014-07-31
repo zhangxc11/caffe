@@ -103,7 +103,7 @@ message SolverState {
 
 // Update the next available ID when you add a new LayerParameter field.
 //
-// LayerParameter next available ID: 24 (last added: dot_product_similarity_param)
+// LayerParameter next available ID: 25 (last added: dot_product_similarity_param)
 message LayerParameter {
   repeated string bottom = 2; // the name of the bottom blobs
   repeated string top = 3; // the name of the top blobs
@@ -166,10 +166,11 @@ message LayerParameter {
   optional ConcatParameter concat_param = 9;
   optional ConvolutionParameter convolution_param = 10;
   optional DataParameter data_param = 11;
-  optional DotProductSimilarityParameter dot_product_similarity_param = 23;
+  optional DotProductSimilarityParameter dot_product_similarity_param = 24;
   optional DropoutParameter dropout_param = 12;
   optional HDF5DataParameter hdf5_data_param = 13;
   optional HDF5OutputParameter hdf5_output_param = 14;
+  optional HingeRankLossParameter hinge_rank_loss_param = 23;
   optional ImageDataParameter image_data_param = 15;
   optional InfogainLossParameter infogain_loss_param = 16;
   optional InnerProductParameter inner_product_param = 17;
@@ -332,6 +333,12 @@ message PowerParameter {
   optional float power = 1 [default = 1.0];
   optional float scale = 2 [default = 1.0];
   optional float shift = 3 [default = 0.0];
+}
+
+// Message that stores parameters used by HingeRankLossLayer
+message HingeRankLossParameter {
+  // Specify the margin used in hinge loss
+  optional float margin = 1 [default = 1.0];
 }
 
 // Message that stores parameters used by WindowDataLayer

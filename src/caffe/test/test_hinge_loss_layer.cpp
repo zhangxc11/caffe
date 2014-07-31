@@ -53,6 +53,7 @@ TYPED_TEST_CASE(HingeLossLayerTest, Dtypes);
 TYPED_TEST(HingeLossLayerTest, TestGradientCPU) {
   LayerParameter layer_param;
   Caffe::set_mode(Caffe::CPU);
+  layer_param.mutable_hinge_rank_loss_param()->set_margin(0.1);
   HingeLossLayer<TypeParam> layer(layer_param);
   layer.SetUp(this->blob_bottom_vec_, &this->blob_top_vec_);
   GradientChecker<TypeParam> checker(1e-2, 1e-3, 1701, 1, 0.01);
@@ -63,6 +64,7 @@ TYPED_TEST(HingeLossLayerTest, TestGradientCPU) {
 TYPED_TEST(HingeLossLayerTest, TestGradientGPU) {
   LayerParameter layer_param;
   Caffe::set_mode(Caffe::GPU);
+  layer_param.mutable_hinge_rank_loss_param()->set_margin(0.1);
   HingeLossLayer<TypeParam> layer(layer_param);
   layer.SetUp(this->blob_bottom_vec_, &this->blob_top_vec_);
   GradientChecker<TypeParam> checker(1e-2, 1e-3, 1701, 1, 0.01);

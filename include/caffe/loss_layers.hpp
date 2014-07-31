@@ -116,6 +116,8 @@ class HingeRankLossLayer : public LossLayer<Dtype> {
  public:
   explicit HingeRankLossLayer(const LayerParameter& param)
       : LossLayer<Dtype>(param) {}
+  virtual void FurtherSetUp(const vector<Blob<Dtype>*>& bottom,
+      vector<Blob<Dtype>*>* top);
 
  protected:
   virtual Dtype Forward_cpu(const vector<Blob<Dtype>*>& bottom,
@@ -123,6 +125,7 @@ class HingeRankLossLayer : public LossLayer<Dtype> {
   virtual void Backward_cpu(const vector<Blob<Dtype>*>& top,
       const bool propagate_down, vector<Blob<Dtype>*>* bottom);
 
+  Dtype margin_;
 };
 
 /* HingeLossLayer
