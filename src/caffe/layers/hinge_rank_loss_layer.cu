@@ -14,18 +14,20 @@ namespace caffe {
 
 template <typename Dtype>
 __global__ void kernel_get_lab_val(const int num, const int dim,
-    const Dtype* label, const Dtype* data, Dtype* val) {
+    const Dtype* label, const Dtype* margin, Dtype* data, Dtype* val) {
   CUDA_KERNEL_LOOP(index, num) {
     val[index] = data[index * dim + static_cast<int>(label[index])];
+    // the loss for labeled data is zero
+    data[index * dim + static_cast<int>(label[index])] -= *margin;
   }
 }
 
 template <typename Dtype>
 __global__ void kernel_hinge_max(const int num, const int dim,
-    const Dtype* labelval, const Dtype margin, Dtype* data) {
+    const Dtype* labelval, const Dtype* margin, Dtype* data) {
   CUDA_KERNEL_LOOP(index, num * dim){
     int n = index / dim;
-    data[index] = max(Dtype(0), margin - labelval[n] + data[index]);
+    data[index] = max(Dtype(0), *margin - labelval[n] + data[index]);
   }
 }
 
@@ -44,14 +46,15 @@ Dtype HingeRankLossLayer<Dtype>::Forward_gpu(
   Dtype* bottom_diff = bottom[0]->mutable_gpu_diff();
   Dtype* labval_data = labval_.mutable_gpu_data();
   const Dtype* label = bottom[1]->gpu_data();
+  const Dtype* margin_data = margin_.gpu_data();
   int num = bottom[0]->num();
   int count = bottom[0]->count();
   int dim = count / num;
   caffe_gpu_copy(count, bottom_data, bottom_diff);
   kernel_get_lab_val<Dtype><<<CAFFE_GET_BLOCKS(num), CAFFE_CUDA_NUM_THREADS>>>(
-      num, dim, label, bottom_diff, labval_data);
+      num, dim, label, margin_data, bottom_diff, labval_data);
   kernel_hinge_max<Dtype><<<CAFFE_GET_BLOCKS(num * dim),
-    CAFFE_CUDA_NUM_THREADS>>>(num, dim, labval_data, margin_, bottom_diff);
+    CAFFE_CUDA_NUM_THREADS>>>(num, dim, labval_data, margin_data, bottom_diff);
   Dtype sum;
   caffe_gpu_asum(count, bottom_diff, &sum);
   return  sum / num;

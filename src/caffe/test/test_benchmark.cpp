@@ -159,8 +159,9 @@ TEST_F(BenchmarkTest, TestTimerSecondsGPU) {
   EXPECT_FALSE(timer.has_run_at_least_once());
   timer.Start();
   usleep(300 * 1000);
-  CHECK_GE(timer.Seconds(), 0.298);
-  CHECK_LE(timer.Seconds(), 0.302);
+  float seconds = timer.Seconds();
+  CHECK_GE(seconds, 0.298);
+  CHECK_LE(seconds, 0.302);
   EXPECT_TRUE(timer.initted());
   EXPECT_FALSE(timer.running());
   EXPECT_TRUE(timer.has_run_at_least_once());

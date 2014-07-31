@@ -20,7 +20,9 @@ void HingeRankLossLayer<Dtype>::FurtherSetUp(
   CHECK_EQ(bottom[1]->channels(), 1);
   CHECK_EQ(bottom[1]->height(), 1);
   CHECK_EQ(bottom[1]->width(), 1);
-  margin_ = this->layer_param_.hinge_rank_loss_param().margin();
+  margin_.Reshape(1, 1, 1, 1);
+  Dtype* margin_data = margin_.mutable_cpu_data();
+  *margin_data = this->layer_param_.hinge_rank_loss_param().margin();
   sum_multiplier_.Reshape(1, bottom[0]->channels(),
       bottom[0]->height(), bottom[0]->width());
   Dtype* multiplier_data = sum_multiplier_.mutable_cpu_data();
@@ -38,6 +40,7 @@ Dtype HingeRankLossLayer<Dtype>::Forward_cpu(
   Dtype* bottom_diff = bottom[0]->mutable_cpu_diff();
   Dtype* labval_data = labval_.mutable_cpu_data();
   const Dtype* label = bottom[1]->cpu_data();
+  const Dtype* margin_data = margin_.cpu_data();
   int num = bottom[0]->num();
   int count = bottom[0]->count();
   int dim = count / num;
@@ -47,7 +50,7 @@ Dtype HingeRankLossLayer<Dtype>::Forward_cpu(
     labval_data[i] = bottom_diff[i * dim + static_cast<int>(label[i])];
     for (int j = 0; j < dim; ++j) {
       bottom_diff[i * dim + j] =
-        max(Dtype(0), margin_ - labval_data[i] + bottom_diff[i * dim + j]);
+        max(Dtype(0), *margin_data - labval_data[i] + bottom_diff[i * dim + j]);
     }
   }
   for (int i = 0; i < num; ++i) {

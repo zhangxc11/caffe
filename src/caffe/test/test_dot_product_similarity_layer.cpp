@@ -118,7 +118,7 @@ TYPED_TEST(DotProductSimilarityLayerTest, TestCPU) {
   const TypeParam* result = this->blob_result_->cpu_data();
   const int count = this->blob_top_->count();
   for (int i = 0; i < count; ++i) {
-    EXPECT_NEAR(result[i], data[i], fabs(result[i]) * 1e-4);
+    EXPECT_NEAR(result[i], data[i], fabs(result[i]) * 1e-5);
   }
 }
 

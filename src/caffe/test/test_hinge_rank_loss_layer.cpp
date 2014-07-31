@@ -23,7 +23,7 @@ template <typename Dtype>
 class HingeRankLossLayerTest : public ::testing::Test {
  protected:
   HingeRankLossLayerTest()
-      : blob_bottom_data_(new Blob<Dtype>(10, 5, 1, 1)),
+      : blob_bottom_data_(new Blob<Dtype>(10, 20, 1, 1)),
         blob_bottom_label_(new Blob<Dtype>(10, 1, 1, 1)) {
     // fill the values
     FillerParameter filler_param;
@@ -50,16 +50,6 @@ typedef ::testing::Types<float, double> Dtypes;
 TYPED_TEST_CASE(HingeRankLossLayerTest, Dtypes);
 
 
-TYPED_TEST(HingeRankLossLayerTest, TestGradientCPU) {
-  LayerParameter layer_param;
-  Caffe::set_mode(Caffe::CPU);
-  HingeRankLossLayer<TypeParam> layer(layer_param);
-  layer.SetUp(this->blob_bottom_vec_, &this->blob_top_vec_);
-  GradientChecker<TypeParam> checker(1e-2, 1e-3, 1701, 1, 0.01);
-  checker.CheckGradientSingle(&layer, &(this->blob_bottom_vec_),
-      &(this->blob_top_vec_), 0, -1, -1);
-}
-
 TYPED_TEST(HingeRankLossLayerTest, TestGPU) {
   int deviceNum = 0;
   cudaGetDeviceCount(&deviceNum);
@@ -68,6 +58,7 @@ TYPED_TEST(HingeRankLossLayerTest, TestGPU) {
   if (sizeof(TypeParam) == 4 || CAFFE_TEST_CUDA_PROP.major >= 2) {
     LayerParameter layer_param;
     Caffe::set_mode(Caffe::CPU);
+    layer_param.mutable_hinge_rank_loss_param()->set_margin(1.);
     HingeRankLossLayer<TypeParam> layer(layer_param);
     layer.SetUp(this->blob_bottom_vec_, &this->blob_top_vec_);
     TypeParam loss = layer.Forward(this->blob_bottom_vec_,
@@ -83,6 +74,17 @@ TYPED_TEST(HingeRankLossLayerTest, TestGPU) {
   }
 }
 
+TYPED_TEST(HingeRankLossLayerTest, TestGradientCPU) {
+  LayerParameter layer_param;
+  Caffe::set_mode(Caffe::CPU);
+  layer_param.mutable_hinge_rank_loss_param()->set_margin(1.);
+  HingeRankLossLayer<TypeParam> layer(layer_param);
+  layer.SetUp(this->blob_bottom_vec_, &this->blob_top_vec_);
+  GradientChecker<TypeParam> checker(1e-2, 1e-3, 1701, 1, 0.01);
+  checker.CheckGradientSingle(&layer, &(this->blob_bottom_vec_),
+      &(this->blob_top_vec_), 0, -1, -1);
+}
+
 TYPED_TEST(HingeRankLossLayerTest, TestGradientGPU) {
   int deviceNum = 0;
   cudaGetDeviceCount(&deviceNum);
@@ -91,6 +93,7 @@ TYPED_TEST(HingeRankLossLayerTest, TestGradientGPU) {
   if (sizeof(TypeParam) == 4 || CAFFE_TEST_CUDA_PROP.major >= 2) {
     LayerParameter layer_param;
     Caffe::set_mode(Caffe::GPU);
+    layer_param.mutable_hinge_rank_loss_param()->set_margin(1.);
     HingeRankLossLayer<TypeParam> layer(layer_param);
     layer.SetUp(this->blob_bottom_vec_, &this->blob_top_vec_);
     GradientChecker<TypeParam> checker(1e-2, 1e-3, 1701, 1, 0.01);
