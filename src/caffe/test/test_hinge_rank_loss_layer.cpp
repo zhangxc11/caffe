@@ -23,8 +23,8 @@ template <typename Dtype>
 class HingeRankLossLayerTest : public ::testing::Test {
  protected:
   HingeRankLossLayerTest()
-      : blob_bottom_data_(new Blob<Dtype>(10, 20, 1, 1)),
-        blob_bottom_label_(new Blob<Dtype>(10, 1, 1, 1)) {
+      : blob_bottom_data_(new Blob<Dtype>(5, 20, 1, 1)),
+        blob_bottom_label_(new Blob<Dtype>(5, 1, 1, 1)) {
     // fill the values
     FillerParameter filler_param;
     filler_param.set_std(10);
