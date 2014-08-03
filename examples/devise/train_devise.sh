@@ -1,7 +1,8 @@
 #!/usr/bin/env sh
 
-TOOLS=../../build/tools
+TOOLS=$CAFFE_ROOT/build/tools
 
-GLOG_logtostderr=1 $TOOLS/train_net.bin imagenet_solver.prototxt
+GLOG_logtostderr=1 $TOOLS/train_net.bin \
+    devise_solver.prototxt init.solverstate
 
 echo "Done."
