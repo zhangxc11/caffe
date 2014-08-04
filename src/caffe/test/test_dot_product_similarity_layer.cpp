@@ -118,7 +118,7 @@ TYPED_TEST(DotProductSimilarityLayerTest, TestCPU) {
   const TypeParam* result = this->blob_result_->cpu_data();
   const int count = this->blob_top_->count();
   for (int i = 0; i < count; ++i) {
-    EXPECT_NEAR(result[i], data[i], fabs(result[i]) * 1e-5);
+    EXPECT_NEAR(result[i], data[i], max(fabs(result[i]), 1e-2) * 1e-3);
   }
 }
 
@@ -137,7 +137,7 @@ TYPED_TEST(DotProductSimilarityLayerTest, TestGPU) {
     const TypeParam* result = this->blob_result_->cpu_data();
     const int count = this->blob_top_->count();
     for (int i = 0; i < count; ++i) {
-      EXPECT_NEAR(result[i], data[i], fabs(result[i]) * 1e-4);
+      EXPECT_NEAR(result[i], data[i], max(fabs(result[i]), 1e-2) * 1e-3);
     }
   } else {
     LOG(ERROR) << "Skipping test due to old architecture.";
