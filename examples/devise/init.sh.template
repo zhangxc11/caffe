@@ -1,0 +1,25 @@
+# data file, which contain get_data.sh
+DATA=../../data/devise
+DIR=$(pwd)
+EXPDIR=exp
+# note: use absoulte path of imagenet as IMGPATH
+IMGPATH=/home/xingcheng/caffe/examples/imagenet
+
+# down load data
+./$DATA/get_data.sh
+
+# return here
+cd $DIR
+
+# create data base
+./linkdb.sh $IMGPATH/ilsvrc12_train_leveldb ilsvrc12_train_leveldb
+./linkdb.sh $IMGPATH/ilsvrc12_val_leveldb ilsvrc12_val_leveldb
+
+# create wordvector.binaryproto
+python create_vec_proto.py
+
+# create init.solverstate
+python create_solverstate.py
+
+# create work space
+./create_work_space.sh $EXPDIR

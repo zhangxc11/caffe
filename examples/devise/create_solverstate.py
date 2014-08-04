@@ -1,6 +1,6 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
-# Last modified: 2014 8月 03 12时02分01秒
+# Last modified: 2014 8月 03 13时07分25秒
 
 """docstring
 """
@@ -9,7 +9,7 @@ __revision__ = '0.1'
 
 import caffe
 
-model = '../../data/devise/caffe_reference_imagenet_model';
+model = 'caffe_reference_imagenet_model';
 state = 'init.solverstate'
 net = caffe.proto.caffe_pb2.NetParameter()
 f = open(model, 'rb')
