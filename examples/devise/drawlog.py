@@ -1,6 +1,6 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
-# Last modified: 2014 8月 04 13时50分49秒
+# Last modified: 2014 8月 04 21时11分05秒
 
 """docstring
 """
@@ -26,7 +26,10 @@ def main(argv):
     subplot(2, 1, 2)
     plot(np.array(tx), np.array(ty))
     print 'val log #', len(tx)
-    savefig('train.eps')
+    if len(argv) > 2:
+        savefig(argv[2])
+    else:
+        savefig('train.eps')
 
 if __name__ == '__main__':
     main(sys.argv)
