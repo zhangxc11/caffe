@@ -1,6 +1,6 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
-# Last modified: 2014 8月 05 09时18分40秒
+# Last modified: 2014 8月 05 09时35分19秒
 
 """docstring
 """
@@ -18,9 +18,9 @@ def main(argv):
     for d in st.history:
         for i in range(d.num * d.channels * d.height * d.width):
             d.data[i] = 0.
-    if len(argv > 2):
+    if len(argv) > 2:
         st.learned_net = argv[2]
-    if len(argv > 3):
+    if len(argv) > 3:
         out = argv[3]
     else:
         out = argv[1]
