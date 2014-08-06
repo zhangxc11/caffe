@@ -1,6 +1,6 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
-# Last modified: 2014 8月 05 16时25分24秒
+# Last modified: 2014 8月 06 16时29分28秒
 
 """docstring
 """
@@ -28,6 +28,7 @@ def main(argv):
     ax1.set_ylabel('training loss')
     ax2.plot(np.array(x), np.array(lr), 'g')
     ax2.set_ylabel('learning rate')
+    ax2.set_yscale('log')
     # plotyy(np.array(x), np.array(y), np.array(x), np.array(lr))
     print 'train log #', len(x)
     if len(argv) > 3:
