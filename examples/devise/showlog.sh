@@ -14,12 +14,18 @@ do
       esac
 done
 
-cat loglist.txt | while read LINE
-do
-    LOG=$(echo $LINE | cut -d ' ' -f 1)
-    EPS=$(echo $LINE | cut -d ' ' -f 2)
-    TITLE=$(echo $LINE | cut -d ' ' -f 3-)
+while read -r LOG EPS TITLE; do
     if $F || test $LOG -nt $EPS; then
-	python $P/drawlog.py $LOG $EPS $TITLE
+	python $P/drawlog.py $LOG $EPS "'$TITLE'"
     fi
-done
+done < loglist.txt
+
+# cat loglist.txt | while read -r LINE
+# do
+#     LOG=$(echo $LINE | cut -d ' ' -f 1)
+#     EPS=$(echo $LINE | cut -d ' ' -f 2)
+#     TITLE=$(echo $LINE | cut -d ' ' -f 3-)
+#     if $F || test $LOG -nt $EPS; then
+# 	python $P/drawlog.py $LOG $EPS $TITLE
+#     fi
+# done
