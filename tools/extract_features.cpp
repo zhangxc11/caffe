@@ -123,6 +123,8 @@ int feature_extraction_pipeline(int argc, char** argv) {
     feature_extraction_net->Forward(input_vec);
     const shared_ptr<Blob<Dtype> > feature_blob = feature_extraction_net
         ->blob_by_name(extract_feature_blob_name);
+    const shared_ptr<Blob<Dtype> > label_blob = feature_extraction_net
+        ->blob_by_name("label");
     int num_features = feature_blob->num();
     int dim_features = feature_blob->count() / num_features;
     Dtype* feature_blob_data;
@@ -132,6 +134,7 @@ int feature_extraction_pipeline(int argc, char** argv) {
       datum.set_channels(1);
       datum.clear_data();
       datum.clear_float_data();
+      datum.set_label(label_blob->cpu_data()[n]);
       feature_blob_data = feature_blob->mutable_cpu_data() +
           feature_blob->offset(n);
       for (int d = 0; d < dim_features; ++d) {

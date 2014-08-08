@@ -10,6 +10,7 @@ cp $1/devise_train.prototxt $2
 cp $1/devise_val.prototxt $2
 cp $1/devise_solver_r.prototxt $2
 cp $1/devise_train_r.prototxt $2
+cp $1/loglist.txt $2
 cp -d $1/init.solverstate $2
 cp -d $1/caffe_reference_imagenet_model $2
 cp -d $1/imagenet_mean.binaryproto $2

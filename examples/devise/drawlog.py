@@ -1,6 +1,6 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
-# Last modified: 2014 8月 06 16时29分28秒
+# Last modified: 2014 8月 07 16时17分18秒
 
 """docstring
 """
@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 
 def main(argv):
     with open(argv[1]) as f:
-        a = [l.strip().split(' ') for l in f.readlines()]
+        a = [' '.join(l.strip().split('  ')).split(' ') for l in f.readlines()]
 
     x = [eval(l[5][:-1]) for l in a if len(l) > 7 and l[6] == 'loss' and l[7] == '=']
     y = [eval(l[8]) for l in a if len(l) > 8 and l[6] == 'loss' and l[7] == '=']
@@ -30,17 +30,21 @@ def main(argv):
     ax2.set_ylabel('learning rate')
     ax2.set_yscale('log')
     # plotyy(np.array(x), np.array(y), np.array(x), np.array(lr))
-    print 'train log #', len(x)
     if len(argv) > 3:
         ax1.set_title(argv[3])
     ax3 = fig.add_subplot(212)
+    len(tx)
+    len(ty)
+    if len(tx) == (len(ty) + 1):
+        tx = tx[:-1]
     ax3.plot(np.array(tx), np.array(ty))
-    ax3.set_ylabel('test rate')
-    print 'val log #', len(tx)
+    ax3.set_ylabel('test accuracy')
     if len(argv) > 2:
+        print argv[2]
         plt.savefig(argv[2])
     else:
         plt.savefig('train.eps')
+    print 'train log #:', len(x),'val log #:', len(tx)
 
 if __name__ == '__main__':
     main(sys.argv)
