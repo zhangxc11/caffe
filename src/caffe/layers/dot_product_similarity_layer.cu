@@ -70,7 +70,8 @@ void DotProductSimilarityLayer<Dtype>::Backward_gpu(
   Dtype* bottom_diff = (*bottom)[0]->mutable_gpu_diff();
   caffe_gpu_gemm<Dtype>(CblasNoTrans, CblasNoTrans, M_, K_, N_, (Dtype)1.,
       top_diff, this->simvec_.gpu_data(), (Dtype)0., bottom_diff);
-  // // Compute inner1d(top_diff, top_data) and subtract them from the bottom diff
+  // // Compute inner1d(top_diff, top_data)
+  // // and subtract them from the bottom diff
   // // cuda dot returns the result to cpu, so we temporarily change the pointer
   // // mode
   // CUBLAS_CHECK(cublasSetPointerMode(Caffe::cublas_handle(),

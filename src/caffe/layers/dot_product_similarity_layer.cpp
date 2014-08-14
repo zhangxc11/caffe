@@ -84,7 +84,8 @@ void DotProductSimilarityLayer<Dtype>::Backward_cpu(
 
   caffe_cpu_gemm<Dtype>(CblasNoTrans, CblasNoTrans, M_, K_, N_, (Dtype)1.,
       top_diff, this->simvec_.cpu_data(), (Dtype)0., bottom_diff);
-  // // Compute inner1d(top_diff, top_data) and subtract them from the bottom diff
+  // // Compute inner1d(top_diff, top_data)
+  // // and subtract them from the bottom diff
   // for (int i = 0; i < M_; ++i) {
   //   sub_data[i] = caffe_cpu_dot<Dtype>(N_, top_diff + i * N_,
   //       top_data + i * N_);

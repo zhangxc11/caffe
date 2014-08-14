@@ -139,6 +139,7 @@ message LayerParameter {
     INFOGAIN_LOSS = 13;
     INNER_PRODUCT = 14;
     LRN = 15;
+    LOOK_UP_TABLE = 32;
     MEMORY_DATA = 29;
     MULTINOMIAL_LOGISTIC_LOSS = 16;
     POOLING = 17;
@@ -175,6 +176,7 @@ message LayerParameter {
   optional InfogainLossParameter infogain_loss_param = 16;
   optional InnerProductParameter inner_product_param = 17;
   optional LRNParameter lrn_param = 18;
+  optional LookUpTableParameter look_up_table_param = 25;
   optional MemoryDataParameter memory_data_param = 22;
   optional PoolingParameter pooling_param = 19;
   optional PowerParameter power_param = 21;
@@ -231,6 +233,12 @@ message DataParameter {
 // Message that stores parameters used by DotProductSimilarityLayer
 message DotProductSimilarityParameter {
   // Specify the similarity vector matrix source.
+  optional string source = 1;
+}
+
+// Message that stores parameters used by LookUpTableLayer
+message LookUpTableParameter {
+  // Specify the dictionary source.
   optional string source = 1;
 }
 

@@ -3,6 +3,7 @@
 #include <cstring>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 #include "cuda_runtime.h"
 #include "gtest/gtest.h"

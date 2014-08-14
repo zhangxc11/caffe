@@ -376,6 +376,29 @@ class DotProductSimilarityLayer : public Layer<Dtype> {
   Blob<Dtype> simvec_;
 };
 
+/* LookUpTableLayer
+*/
+template <typename Dtype>
+class LookUpTableLayer: public Layer<Dtype> {
+ public:
+  explicit LookUpTableLayer(const LayerParameter& param)
+      : Layer<Dtype>(param) {}
+  virtual void SetUp(const vector<Blob<Dtype>*>& bottom,
+      vector<Blob<Dtype>*>* top);
+
+ protected:
+  virtual Dtype Forward_cpu(const vector<Blob<Dtype>*>& bottom,
+      vector<Blob<Dtype>*>* top);
+  // virtual Dtype Forward_gpu(const vector<Blob<Dtype>*>& bottom,
+  //      vector<Blob<Dtype>*>* top);
+  virtual void Backward_cpu(const vector<Blob<Dtype>*>& top,
+      const bool propagate_down, vector<Blob<Dtype>*>* bottom);
+
+  int N_;
+  // dictionary is used to do look up
+  Blob<Dtype> dictionary_;
+};
+
 /* SoftmaxWithLossLayer
   Implements softmax and computes the loss.
 
