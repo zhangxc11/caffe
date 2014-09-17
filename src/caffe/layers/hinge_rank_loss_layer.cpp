@@ -1,14 +1,13 @@
-// Copyright 2014 BVLC and contributors.
 
 #include <algorithm>
-#include <cmath>
 #include <cfloat>
+#include <cmath>
 #include <vector>
 
 #include "caffe/layer.hpp"
-#include "caffe/vision_layers.hpp"
-#include "caffe/util/math_functions.hpp"
 #include "caffe/util/io.hpp"
+#include "caffe/util/math_functions.hpp"
+#include "caffe/vision_layers.hpp"
 
 using std::max;
 
@@ -61,7 +60,7 @@ Dtype HingeRankLossLayer<Dtype>::Forward_cpu(
 
 template <typename Dtype>
 void HingeRankLossLayer<Dtype>::Backward_cpu(const vector<Blob<Dtype>*>& top,
-    const bool propagate_down, vector<Blob<Dtype>*>* bottom) {
+    const vector<bool>& propagate_down, vector<Blob<Dtype>*>* bottom) {
   Dtype* bottom_diff = (*bottom)[0]->mutable_cpu_diff();
   const Dtype* label = (*bottom)[1]->cpu_data();
   Dtype* labval_data = labval_.mutable_cpu_data();

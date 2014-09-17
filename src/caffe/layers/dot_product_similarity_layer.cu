@@ -1,5 +1,3 @@
-// Copyright 2014 BVLC and contributors.
-
 #include <algorithm>
 #include <cfloat>
 #include <vector>
@@ -7,8 +5,8 @@
 #include "thrust/device_vector.h"
 
 #include "caffe/layer.hpp"
-#include "caffe/vision_layers.hpp"
 #include "caffe/util/math_functions.hpp"
+#include "caffe/vision_layers.hpp"
 
 using std::max;
 
@@ -61,9 +59,9 @@ Dtype DotProductSimilarityLayer<Dtype>::Forward_gpu(
 template <typename Dtype>
 void DotProductSimilarityLayer<Dtype>::Backward_gpu(
     const vector<Blob<Dtype>*>& top,
-    const bool propagate_down,
+    const vector<bool>& propagate_down,
     vector<Blob<Dtype>*>* bottom) {
-  if (!propagate_down) return;
+  if (!propagate_down[0]) return;
   const Dtype* top_diff = top[0]->gpu_diff();
   const Dtype* top_data = top[0]->gpu_data();
   const Dtype* scale_data = scale_.gpu_data();

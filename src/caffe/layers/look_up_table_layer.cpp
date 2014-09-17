@@ -1,12 +1,10 @@
-// Copyright 2014 BVLC and contributors.
-//
 #include <algorithm>
 #include <vector>
 
 #include "caffe/layer.hpp"
-#include "caffe/vision_layers.hpp"
-#include "caffe/util/math_functions.hpp"
 #include "caffe/util/io.hpp"
+#include "caffe/util/math_functions.hpp"
+#include "caffe/vision_layers.hpp"
 
 using std::max;
 
@@ -52,7 +50,7 @@ Dtype LookUpTableLayer<Dtype>::Forward_cpu(
 template <typename Dtype>
 void LookUpTableLayer<Dtype>::Backward_cpu(
     const vector<Blob<Dtype>*>& top,
-    const bool propagate_down,
+    const vector<bool>& propagate_down,
     vector<Blob<Dtype>*>* bottom) {
   return;
 }

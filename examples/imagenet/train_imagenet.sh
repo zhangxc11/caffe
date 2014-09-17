@@ -2,6 +2,6 @@
 
 TOOLS=../../build/tools
 
-GLOG_logtostderr=1 $TOOLS/train_net.bin imagenet_solver_r.prototxt
+$TOOLS/caffe train --solver=imagenet_solver_r.prototxt
 
 echo "Done."

@@ -1,20 +1,18 @@
-// Copyright 2014 BVLC and contributors.
-
+#include <algorithm>
 #include <cstring>
 #include <string>
 #include <vector>
-#include <algorithm>
 
-#include "cuda_runtime.h"
-#include "gtest/gtest.h"
 #include "caffe/blob.hpp"
 #include "caffe/common.hpp"
 #include "caffe/filler.hpp"
-#include "caffe/vision_layers.hpp"
 #include "caffe/test/test_gradient_check_util.hpp"
 
 #include "caffe/test/test_caffe_main.hpp"
 #include "caffe/util/io.hpp"
+#include "caffe/vision_layers.hpp"
+#include "cuda_runtime.h"
+#include "gtest/gtest.h"
 
 using std::string;
 

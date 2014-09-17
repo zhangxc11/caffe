@@ -1,12 +1,10 @@
-// Copyright 2014 BVLC and contributors.
-//
 #include <algorithm>
 #include <vector>
 
 #include "caffe/layer.hpp"
-#include "caffe/vision_layers.hpp"
-#include "caffe/util/math_functions.hpp"
 #include "caffe/util/io.hpp"
+#include "caffe/util/math_functions.hpp"
+#include "caffe/vision_layers.hpp"
 
 using std::max;
 
@@ -54,11 +52,11 @@ Dtype DotProductSimilarityLayer<Dtype>::Forward_cpu(
     vector<Blob<Dtype>*>* top) {
   const Dtype* bottom_data = bottom[0]->cpu_data();
   Dtype* top_data = (*top)[0]->mutable_cpu_data();
-  Dtype* scale_data = scale_.mutable_cpu_data();
   const Dtype* weight = this->simvec_.cpu_data();
   // do inner product
   caffe_cpu_gemm<Dtype>(CblasNoTrans, CblasTrans, M_, N_, K_, (Dtype)1.,
       bottom_data, weight, (Dtype)0., top_data);
+  // Dtype* scale_data = scale_.mutable_cpu_data();
   // // uniform vectors
   // // sum
   // caffe_cpu_gemv<Dtype>(CblasNoTrans, M_, K_, 1., bottom_data,
@@ -73,17 +71,19 @@ Dtype DotProductSimilarityLayer<Dtype>::Forward_cpu(
 template <typename Dtype>
 void DotProductSimilarityLayer<Dtype>::Backward_cpu(
     const vector<Blob<Dtype>*>& top,
-    const bool propagate_down,
+    const vector<bool>& propagate_down,
     vector<Blob<Dtype>*>* bottom) {
-  if (!propagate_down) return;
+  if (!propagate_down[0]) return;
   const Dtype* top_diff = top[0]->cpu_diff();
-  const Dtype* top_data = top[0]->cpu_data();
   Dtype* bottom_diff = (*bottom)[0]->mutable_cpu_diff();
-  Dtype* scale_data = scale_.mutable_cpu_data();
-  Dtype* sub_data = sub_.mutable_cpu_data();
 
   caffe_cpu_gemm<Dtype>(CblasNoTrans, CblasNoTrans, M_, K_, N_, (Dtype)1.,
       top_diff, this->simvec_.cpu_data(), (Dtype)0., bottom_diff);
+
+  // const Dtype* top_data = top[0]->cpu_data();
+  // Dtype* sub_data = sub_.mutable_cpu_data();
+  // Dtype* scale_data = scale_.mutable_cpu_data();
+  //
   // // Compute inner1d(top_diff, top_data)
   // // and subtract them from the bottom diff
   // for (int i = 0; i < M_; ++i) {
@@ -99,6 +99,10 @@ void DotProductSimilarityLayer<Dtype>::Backward_cpu(
   // }
 }
 
+
+#ifdef CPU_ONLY
+STUB_GPU(DotProductSimilarityLayer);
+#endif
 
 INSTANTIATE_CLASS(DotProductSimilarityLayer);
 
