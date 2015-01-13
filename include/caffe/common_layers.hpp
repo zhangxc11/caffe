@@ -487,6 +487,42 @@ class SliceLayer : public Layer<Dtype> {
   vector<int> slice_point_;
 };
 
+/**
+ * @brief Takes a Blob and extend its some dim into several
+ *        outputting multiple Blob results.
+ *
+ */
+template <typename Dtype>
+class ExtendLayer : public Layer<Dtype> {
+ public:
+  explicit ExtendLayer(const LayerParameter& param)
+      : Layer<Dtype>(param) {}
+  virtual void LayerSetUp(const vector<Blob<Dtype>*>& bottom,
+      vector<Blob<Dtype>*>* top);
+  virtual void Reshape(const vector<Blob<Dtype>*>& bottom,
+      vector<Blob<Dtype>*>* top);
+
+  virtual inline LayerParameter_LayerType type() const {
+    return LayerParameter_LayerType_EXTEND;
+  }
+  virtual inline int ExactNumBottomBlobs() const { return 1; }
+  virtual inline int MinTopBlobs() const { return 1; }
+
+ protected:
+  virtual void Forward_cpu(const vector<Blob<Dtype>*>& bottom,
+      vector<Blob<Dtype>*>* top);
+  virtual void Backward_cpu(const vector<Blob<Dtype>*>& top,
+      const vector<bool>& propagate_down, vector<Blob<Dtype>*>* bottom) {}
+
+  int count_;
+  int num_;
+  int channels_;
+  int height_;
+  int width_;
+  vector<int> extend_pos_;
+  vector<int> extend_dim_;
+};
+
 }  // namespace caffe
 
 #endif  // CAFFE_COMMON_LAYERS_HPP_
